@@ -1,0 +1,153 @@
+{
+  "users": [
+    {
+      "email": "samanft752@gmail.com",
+      "full_name": "saman fattahi",
+      "phone_number": "09391135250",
+      "password": "BlackBoyD",
+      "id": 1
+    }
+  ],
+  "server-type": [
+    {
+      "id": 1,
+      "type": "Low",
+      "selected": false
+    },
+    {
+      "id": 2,
+      "type": "Medium",
+      "selected": true
+    },
+    {
+      "id": 3,
+      "type": "Fast",
+      "selected": true
+    },
+    {
+      "id": 4,
+      "type": "Advanced",
+      "selected": true
+    }
+  ],
+  "country": [
+    {
+      "id": 1,
+      "city": "New Work"
+    },
+    {
+      "id": 2,
+      "city": "Amesterdam"
+    },
+    {
+      "id": 3,
+      "city": "London"
+    },
+    {
+      "id": 4,
+      "city": "Paris"
+    },
+    {
+      "id": 5,
+      "city": "Tokyo"
+    },
+    {
+      "id": 6,
+      "city": "Chicago"
+    },
+    {
+      "id": 7,
+      "city": "Madrid"
+    },
+    {
+      "id": 8,
+      "city": "Berlin"
+    }
+  ],
+  "os": [
+    {
+      "id": 1,
+      "operator": "windows",
+      "version": [
+        {
+          "id": 1,
+          "v": "64bit"
+        },
+        {
+          "id": 2,
+          "v": "32bit"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "operator": "ubuntu",
+      "version": [
+        {
+          "id": 3,
+          "v": "64bit"
+        },
+        {
+          "id": 4,
+          "v": "32bit"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "operator": "Linux",
+      "version": [
+        {
+          "id": 5,
+          "v": "64bit"
+        },
+        {
+          "id": 6,
+          "v": "32bit"
+        }
+      ]
+    }
+  ],
+  "plans": [
+    {
+      "id": 1,
+      "Title": "25GB SSD",
+      "duration": "1month",
+      "Price": 5,
+      "config": {
+        "cpu": "1",
+        "memory": "1024"
+      }
+    },
+    {
+      "id": 2,
+      "Title": "50GB SSD",
+      "duration": "3month",
+      "Price": 10,
+      "config": {
+        "cpu": "3",
+        "memory": "2048"
+      }
+    },
+    {
+      "id": 3,
+      "Title": "100GB SSD",
+      "duration": "6month",
+      "Price": 20,
+      "config": {
+        "cpu": "5",
+        "memory": "4096"
+      }
+    },
+    {
+      "id": 4,
+      "Title": "500GB SSD",
+      "duration": "1year",
+      "Price": 50,
+      "config": {
+        "cpu": "8",
+        "memory": "8192"
+      }
+    }
+  ]
+}
