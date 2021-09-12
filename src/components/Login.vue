@@ -17,8 +17,7 @@
             <v-row class="grey lighten-5 mb-6">
                 <v-col align="center">
                     <v-form
-                            ref="form"
-                            v-model="valid"
+
                             lazy-validation
                     >
                         <v-text-field
@@ -29,7 +28,7 @@
                         ></v-text-field>
 
                         <v-text-field
-                                v-model="LoginInfo.Password"
+                                v-model="LoginInfo.password"
                                 label="Password"
                                 required
                         ></v-text-field>
@@ -37,7 +36,6 @@
 
 
                         <v-btn
-                                :disabled="!valid"
                                 color="success"
                                 class="mr-4"
                                 @click="Login(LoginInfo)"
@@ -58,7 +56,7 @@
 
 
 <script>
-
+import axios from 'axios'
 
     export default {
         name: "Home",
@@ -71,10 +69,9 @@
                 'end',
             ],
 
-            valid: true,
             LoginInfo:{
-                Password:'',
                 email: '',
+                password:''
             },
             emailRules: [
                 v => !!v || 'E-mail is required',
@@ -85,13 +82,17 @@
             Login(LoginInfo){
                 console.log(LoginInfo)
                 this.ShowAlert = true
+                this.$router.push('/Panel/4')
+                    axios.post('https://613a0f631fcce10017e78d6b.mockapi.io/users',LoginInfo).then((res)=>{
+                        console.log(res)
+                    })
+                },
 
-                this.$router.push('/Panel')
 
 
 
-            }
-        },
+            },
+
 
 
 

@@ -1,0 +1,43 @@
+/* shared */
+
+.Flex{
+    display: flex;
+    flex-direction: column;
+}
+
+.Text-White{
+    color: white!important;
+}
+
+.Text-Blue{
+    color: #0053ff !important;
+}
+
+body{
+    margin: 0px;
+    padding: 0px;
+}
+.Selected:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: .5s;
+}
+
+/* Sidebar */
+
+.Size{
+    width: 256px!important;
+    height: 100vh!important;
+}
+
+.d-fixed{
+    position: fixed!important;
+}
+
+/* Deploy */
+
+.Text-hover:hover{
+    color: #00c047 !important;
+    transition: .5s ease;
+}
+

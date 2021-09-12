@@ -16,8 +16,7 @@
     <v-row class="grey lighten-5 mb-6">
         <v-col align="center">
             <v-form
-                    ref="form"
-                    v-model="valid"
+
                     lazy-validation
             >
                 <v-text-field
@@ -29,7 +28,7 @@
 
                 <v-text-field
                         v-model="AuthInfo.name"
-                        :counter="10"
+                        :counter="20"
                         :rules="nameRules"
                         label="Name"
                         required
@@ -38,7 +37,8 @@
 
 
                 <v-text-field
-                        v-model="AuthInfo.phone_number"
+                        v-model="AuthInfo.phone"
+
                         :rules="PhoneNumberRules"
                         label="PhoneNumber"
                         required
@@ -53,7 +53,7 @@
 
 
                 <v-btn
-                        :disabled="!valid"
+
                         color="success"
                         class="mr-4"
                         @click="validate(AuthInfo)"
@@ -80,11 +80,10 @@ alignments: [
 'end',
 ],
 
-valid: true,
 AuthInfo:{
     email: "",
-    full_name: "",
-    phone_number: "",
+    name: "",
+    phone: "",
     password: ""
 },
 
@@ -103,9 +102,11 @@ v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
 }),
 methods:{
 validate(AuthInfo){
+
 this.ShowAlert = true
     this.$store.dispatch('RegisterUser',AuthInfo)
 
+    this.$router.push('/Panel/3')
 
 }
 },
