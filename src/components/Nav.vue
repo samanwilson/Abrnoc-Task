@@ -4,7 +4,7 @@
             <v-toolbar dense class="primary">
                 <v-spacer></v-spacer>
 
-                <v-banner class="Text-White">user name</v-banner>
+                <v-banner class="Text-White">{{ShowUserFromVuex.full_name}}</v-banner>
             </v-toolbar>
         </v-card>
     </v-col>
@@ -15,9 +15,18 @@
         data(){
             return{
 
+                c: this.$session.get('token')
             }
         },
-        name: "Nav"
+        name: "Nav",
+        computed:{
+            ShowUserFromVuex(){
+                return this.$store.getters.ShowRegisteredUser
+            }
+        },
+        created(){
+            this.$store.dispatch("GetUserAuth")
+        }
     }
 </script>
 

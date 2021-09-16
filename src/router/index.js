@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Home from "../views/Register.vue";
 import Login from '../components/Login'
 import Panel from "../views/Panel";
 import Deploy from "../views/Deploy";

@@ -7,7 +7,7 @@
                      color="green"
                      align="center"
                      type="success"
-            >Login Successful</v-alert>
+            >Register Successful Please Confirm your email and then attempt to login</v-alert>
             <v-row  no-gutters style="height: 150px;">
 
                 <v-col align="center">
@@ -56,13 +56,13 @@
 
 
 <script>
-import axios from 'axios'
+
 
     export default {
         name: "Home",
 
         data: () => ({
-            ShowAlert:false,
+            ShowAlert:true,
             alignments: [
                 'start',
                 'center',
@@ -71,7 +71,7 @@ import axios from 'axios'
 
             LoginInfo:{
                 email: '',
-                password:''
+               password:''
             },
             emailRules: [
                 v => !!v || 'E-mail is required',
@@ -80,12 +80,7 @@ import axios from 'axios'
         }),
         methods:{
             Login(LoginInfo){
-                console.log(LoginInfo)
-                this.ShowAlert = true
-                this.$router.push('/Panel/4')
-                    axios.post('https://613a0f631fcce10017e78d6b.mockapi.io/users',LoginInfo).then((res)=>{
-                        console.log(res)
-                    })
+                this.$store.dispatch('LoginUser',LoginInfo)
                 },
 
 

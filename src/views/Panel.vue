@@ -30,7 +30,7 @@
                               <v-row>
                                   <v-col cols="12" align="center">
                                       <v-card class="py-3">
-                                         <h2>No instances</h2>
+                                         <h2 v-if="this.$store.state.NoInstance">No instances</h2>
                                           <v-btn
                                                   class="mx-2"
                                                   fab
@@ -43,13 +43,49 @@
                                               </v-icon>
                                           </v-btn>
                                       </v-card>
-                                      <v-data-table
-                                              :headers="headers"
-                                              :items="IPs"
+                                      <br>
+                                      <v-card  class="mx-auto" max-width="344"  v-for="item in ShowUserTemplates " :key="item.id">
 
-                                              class="elevation-1"
-                                      ></v-data-table>
+                                          <v-card-title>
+                                             {{item.name}}
+                                          </v-card-title>
+
+                                          <v-card-subtitle>
+                                             {{item.name}}
+                                          </v-card-subtitle>
+                                          <v-card-actions>
+                                              <v-btn
+                                                      color="orange lighten-2"
+                                                      text
+                                                      @click="show = !show"
+                                              >
+                                                  Explore
+                                              </v-btn>
+
+                                              <v-spacer></v-spacer>
+
+                                          </v-card-actions>
+                                          <v-expand-transition >
+                                              <div v-show="show">
+                                                  <v-divider></v-divider>
+
+                                                  <v-card-text class="text-left">
+                                                     Cores {{item.template.CPU}}
+                                                  </v-card-text>
+                                                  <v-card-text class="text-left">
+                                                     Memory Size {{item.template.MEMORY}}
+                                                  </v-card-text>
+                                                  <v-card-text class="text-left">
+                                                       Description {{item.template.INFO}}
+                                                  </v-card-text>
+                                              </div>
+                                          </v-expand-transition>
+
+                                      </v-card>
+
                                   </v-col>
+                                  <p>
+                                  </p>
                               </v-row>
                           </v-card>
                       </v-card>
@@ -74,31 +110,8 @@
         name: "Panel",
         components: {Nav, SideBar},
         data(){
-            return{
-                headers: [
-                    {text: 'IP', value: 'Type'},
-                    { text: 'location', value: 'Country' },
-                    { text: 'status', value: 'stats' },
-
-                ],
-                IPs: [
-                    {
-                        Type:"low",
-                        Country: 'usa',
-                        stats: 'On',
-                    },
-                    {
-                        name: '1.1.1.1',
-                        Country: 'usa',
-                        stats: 'On',
-                    },
-                    {
-                        name: '1.1.1.1',
-                        Country: 'usa',
-                        stats: 'On',
-                    },
-
-                ],
+            return {
+                show: true,
 
 
             }
@@ -107,6 +120,12 @@
             LeadToDeploy(){
                 this.$router.push('/Deploy')
             }
+        },
+        computed:{
+            ShowUserTemplates(){
+              return   this.$store.getters.ShowSelectedTemp
+            },
+
         }
     }
 </script>

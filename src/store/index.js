@@ -1,192 +1,169 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
+import router from "../router/index";
+import VueSessionStorage from 'vue-sessionstorage'
+Vue.use(VueSessionStorage)
 
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    RegisteredUser:[],
-    Panel:[],
-
-
-    ServerType:[],
-    Location:[],
-    OS:[],
-    Plans:[],
-    ssh:[],
-
-
-    UserServerDetail:[],
-
-
-    UserPlan:[]
+   User:[],
+    gtoken:'',
+    token:'',
+    Templates:[],
+    SelectedTemp:[],
+    NoInstance:true,
+    UserSshKey:[]
 
   },
   getters:{
     ShowRegisteredUser(state){
-      return state.RegisteredUser
+      return state.User
     },
-
-
-
-
-    ShowServerType(state){
-      return state.ServerType
+    ShowTemplates(state){
+      return state.Templates
     },
-    ShowLocation(state){
-      return state.Location
+    ShowSelectedTemp(state){
+      return state.SelectedTemp
     },
-    ShowOS(state){
-      return state.OS
-    },
-    ShowPlans(state){
-      return state.Plans
-    },
-
-
-
-
-    ShowUserServer(state){
-      return state.UserServerDetail
-    },
-    ShowPanel(state){
-      return state.Panel
+    ShowSshKey(state){
+      return state.UserSshKey
     }
 
   },
   mutations: {
-    SetRegisteredUser(state,data){
-      state.RegisteredUser.push(data)
+    SetTokens(state,data){
+      sessionStorage.setItem('token',data.data.token)
+     sessionStorage.setItem('gtoken',data.data.gtoken)
+
 
     },
-    SetServerType(state,data){
-      state.ServerType.push(data)
+    SetUserInfo(state,data){
+      state.User = data
+    },
+    SetTemplates(state,data){
+      state.Templates = data
+    },
+    SetSelectedTemplate(state,data){
+      state.SelectedTemp.push(data)
+      state.NoInstance =false
+      router.push('/Panel')
+      console.log(state.SelectedTemp)
 
     },
-    SetLocation(state,data){
-      state.Location.push(data)
+    SetSshKey(state,data){
+      state.UserSshKey.push(data)
 
-    },
-    SetOS(state,data){
-      state.OS.push(data)
-    },
-    SetPlans(state,data){
-      state.Plans.push(data)
-    },
-    SetPlanForUser(state,data){
-      state.UserPlan.push(data)
-
-},
-    SetPanel(state,data){
-      state.Panel.push(data)
     }
+
   },
   actions: {
     RegisterUser(context,data){
-      axios.post('https://613a0f631fcce10017e78d6b.mockapi.io/users',data).then((res)=>{
+      axios.post('https://odev.abrnoc.com/fastapi/auth',data).then((res)=>{
         console.log(res)
-        context.commit('SetRegisteredUser',res.data)
+        if (res.statusText=== 'Created') {
+          alert('please confirm your email')
+          router.push('/Login')
+          context.commit('SetRegisteredUser', res.data)
+        }
+      }).catch((err)=>{
+        alert(err)
       })
     },
 
 
 
 
-    GetServerType(context){
-      axios.get('https://613a0f631fcce10017e78d6b.mockapi.io/server-type').then((res)=>{
-        context.commit("SetServerType",res.data)
-      })
+    LoginUser(context,data){
+      axios.post('https://odev.abrnoc.com/fastapi/auth/login',data).then((res)=>{
+        if (res.statusText=== 'Created') {
+          console.log(res)
+          context.commit('SetTokens',res)
+          router.push('/Panel')
+        }
 
-    },
-    GetLocation(context){
-      axios.get('https://613a0f631fcce10017e78d6b.mockapi.io/country').then((res)=>{
-        context.commit("SetLocation",res.data)
-      })
-    },
-    GetOS(context){
-      axios.get('http://localhost:3000/os').then((res)=>{
-        context.commit("SetOS",res.data)
-      })
-    },
-    GetPlans(context){
-      axios.get('http://localhost:3000/plans').then((res)=>{
-        context.commit("SetPlans",res.data)
+      }).catch((err)=>{
+        alert(err)
       })
     },
 
+    GetUserAuth(context){
+      fetch('https://odev.abrnoc.com/fastapi/auth/user-info',{
+        method:'get',
+        headers:{
+            'accept':'application/json',
+            'session-string': sessionStorage.getItem('token')
+        },
+      }).then( res=>res.json()).then((data)=>{
+        context.commit('SetUserInfo',data)
+      }).catch((err)=>{
+        alert(err)
+      })
 
+    },
+    GetTemplates(context){
+      fetch('https://odev.abrnoc.com/fastapi/templates',{
+        method:'get',
+        headers:{
+          'accept':'application/json',
+          'session-string': sessionStorage.getItem('token')
+        }
+      }).then( res=>res.json()).then((data)=>{
+        context.commit('SetTemplates',data)
 
+      }).catch((err)=>{
+        alert(err)
+      })
+    },
 
+    GetSelectedTemplate(context,filter){
+      fetch('https://odev.abrnoc.com/fastapi/templates/'+filter,{
+        method:'get',
+        headers:{
+          'accept':'application/json',
+          'session-string': sessionStorage.getItem('token')
+        }
+      }).then( res=>res.json()).then((data)=>{
+        context.commit('SetSelectedTemplate',data)
 
+      }).catch((err)=>{
+        alert(err)
+      })
+    },
 
-    GetSelectedServerType(context,filter){
-      axios.get('https://613a0f631fcce10017e78d6b.mockapi.io/server-type?id='+filter).then((res)=>{
-        axios.post('https://613a0f631fcce10017e78d6b.mockapi.io/server-data',res.data[0]).then((result)=>{
-          console.log(result)
+    CreateNewSshKey(context,key){
+      axios.post(' https://odev.abrnoc.com/fastapi/ssh-keys',key,{
+      headers:{
+
+          'accept':'application/json',
+          'session-string': sessionStorage.getItem('token'),
+          'Content-Type': 'application/json'
+
+      }
+      }).then((res)=>{
+        console.log(res)
+
+      }).then(()=>{
+        axios.get('https://odev.abrnoc.com/fastapi/ssh-keys',{
+          headers:{
+            'accept':'application/json',
+            'session-string': sessionStorage.getItem('token')
+          }
+        }).then((res)=>{
+          context.commit('SetSshKey',res.data)
+          console.log(res)
         })
+      })
 
 
-
-      })
-    },
-    GetSelectedLocation(context,filter){
-      axios.get('https://613a0f631fcce10017e78d6b.mockapi.io/country?id='+filter).then((res)=>{
-        axios.post('https://613a0f631fcce10017e78d6b.mockapi.io/server-data',res.data[0]).then((result)=>{
-          console.log(result)
-        })
-      })
-    },
-    GEtSelectedOS(context,filter){
-      axios.get('http://localhost:3000/os?id='+filter).then((res)=>{
-        axios.post('https://613a0f631fcce10017e78d6b.mockapi.io/server-data',res.data[0]).then((result)=>{
-          console.log(result)
-        })
-      })
 
     },
-    GetSelectedPlan(context,filter){
-      axios.get('http://localhost:3000/plans?id='+filter).then((res)=>{
-        axios.post('https://613a0f631fcce10017e78d6b.mockapi.io/server-data',res.data[0]).then((result)=>{
-          console.log(result)
-        })
-        context.commit('SetPlanForUser',res.data[0])
-        console.log(res.data[0])
-      })
-    },
 
-    DeployServer(context){
-      axios.get('https://613a0f631fcce10017e78d6b.mockapi.io/server-data').then((res)=>{
-        console.log(res.data)
-        context.commit('SetPanel',res.data)
 
-      })
-    }
 
   },
   modules: {},
 });
-
-
-/* example user
-{
-    "id": 1,
-    "email": "example@example.com",
-    "full_name": "example",
-    "phone_number": "0939110000",
-    "password": "qwerty",
-    "servers-detail": [
-      {
-        "ssh-key": "123456",
-        "location": "usa",
-        "server-type": "medium",
-        "OS": {
-          "OS-type": "ubontu",
-          "OS-version": "64bit"
-        },
-        "Price": "10$"
-      }
-    ]
-  }
-  */

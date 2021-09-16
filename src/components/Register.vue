@@ -1,12 +1,7 @@
 <template>
     <div id="Register">
         <v-container>
-    <v-alert v-if="ShowAlert"
-             border="left"
-             color="green"
-             align="center"
-             type="success"
-    >Register Successful Please Login</v-alert>
+
     <v-row  no-gutters style="height: 150px;">
 
         <v-col align="center">
@@ -27,7 +22,7 @@
                 ></v-text-field>
 
                 <v-text-field
-                        v-model="AuthInfo.name"
+                        v-model="AuthInfo.full_name"
                         :counter="20"
                         :rules="nameRules"
                         label="Name"
@@ -37,7 +32,7 @@
 
 
                 <v-text-field
-                        v-model="AuthInfo.phone"
+                        v-model="AuthInfo.phone_number"
 
                         :rules="PhoneNumberRules"
                         label="PhoneNumber"
@@ -82,8 +77,8 @@ alignments: [
 
 AuthInfo:{
     email: "",
-    name: "",
-    phone: "",
+    full_name: "",
+    phone_number: "",
     password: ""
 },
 
@@ -102,11 +97,7 @@ v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
 }),
 methods:{
 validate(AuthInfo){
-
-this.ShowAlert = true
     this.$store.dispatch('RegisterUser',AuthInfo)
-
-    this.$router.push('/Panel/3')
 
 }
 },
