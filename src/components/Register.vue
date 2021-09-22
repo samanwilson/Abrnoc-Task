@@ -9,7 +9,7 @@
         </v-col>
     </v-row>
     <v-row class="grey lighten-5 mb-6">
-        <v-col align="center">
+        <v-col >
             <v-form
 
                     lazy-validation
@@ -40,12 +40,25 @@
                 ></v-text-field>
 
                 <v-text-field
+                        id="Password"
                         v-model="AuthInfo.password"
                         label="Password"
                         required
+
                 ></v-text-field>
 
 
+
+
+
+                <v-checkbox
+
+                        label="Hide Password"
+                        color="indigo"
+                        value="indigo"
+
+                        @click="ShowPassword"
+                ></v-checkbox>
 
                 <v-btn
 
@@ -53,21 +66,27 @@
                         class="mr-4"
                         @click="validate(AuthInfo)"
                 >
-                    Validate
+                    Sign Up
                 </v-btn>
 
 
             </v-form>
+            <br>
+            <router-link :to="'/Login'">Already Have An Account?Sign In</router-link>
         </v-col>
     </v-row>
         </v-container>
     </div>
     </template>
 <script>
+
 export default {
+
 name: "Home",
 
+
 data: () => ({
+    ShowPass:false,
 ShowAlert:false,
 alignments: [
 'start',
@@ -96,6 +115,15 @@ v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
 
 }),
 methods:{
+    ShowPassword(){
+      let Input = document.querySelector('#Password')
+       if (Input.type==='text'){
+           Input.type = 'password'
+
+       }else {
+           Input.type = 'text'
+       }
+    },
 validate(AuthInfo){
     this.$store.dispatch('RegisterUser',AuthInfo)
 

@@ -120,10 +120,13 @@
     import SideBar from "../components/SideBar";
     import Nav from "../components/Nav";
     export default {
+
         name: "Deploy",
         components: {Nav,SideBar},
+
         data(){
             return{
+                t:true,
                 icons:{
                     name:'mdidelete'
                 },
@@ -165,6 +168,7 @@
         created(){
             this.$store.dispatch('GetTemplates')
         }
+
     }
 </script>
 

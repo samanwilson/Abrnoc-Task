@@ -4,6 +4,7 @@ import Home from "../views/Register.vue";
 import Login from '../components/Login'
 import Panel from "../views/Panel";
 import Deploy from "../views/Deploy";
+//import store from "../store";
 
 Vue.use(VueRouter);
 
@@ -19,12 +20,17 @@ const routes = [
   },
   {
     path:'/Panel',
-    component : Panel
+    component : Panel,
+
   },
   {
+
     path:'/Deploy',
-    component : Deploy
-  }
+    component : Deploy,
+    name:'Deploy',
+
+}
+
 ];
 
 const router = new VueRouter({

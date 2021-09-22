@@ -8,8 +8,10 @@ Vue.use(VueSessionStorage)
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+export default  new Vuex.Store({
   state: {
+    EmailConfirmAlert:false,
+    IsAuth:false,
    User:[],
     gtoken:'',
     token:'',
@@ -38,11 +40,13 @@ export default new Vuex.Store({
     SetTokens(state,data){
       sessionStorage.setItem('token',data.data.token)
      sessionStorage.setItem('gtoken',data.data.gtoken)
+      state.EmailConfirmAlert=true
 
 
     },
     SetUserInfo(state,data){
       state.User = data
+      state.IsAuth=true
     },
     SetTemplates(state,data){
       state.Templates = data
@@ -67,7 +71,7 @@ export default new Vuex.Store({
         if (res.statusText=== 'Created') {
           alert('please confirm your email')
           router.push('/Login')
-          context.commit('SetRegisteredUser', res.data)
+
         }
       }).catch((err)=>{
         alert(err)
@@ -83,6 +87,7 @@ export default new Vuex.Store({
           console.log(res)
           context.commit('SetTokens',res)
           router.push('/Panel')
+
         }
 
       }).catch((err)=>{

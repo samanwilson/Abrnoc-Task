@@ -2,7 +2,7 @@
 <template>
     <div id="Auth">
         <v-container >
-            <v-alert v-if="ShowAlert"
+            <v-alert v-if="this.$store.state.EmailConfirmAlert"
                      border="left"
                      color="green"
                      align="center"
@@ -15,7 +15,8 @@
                 </v-col>
             </v-row>
             <v-row class="grey lighten-5 mb-6">
-                <v-col align="center">
+                <v-col
+                >
                     <v-form
 
                             lazy-validation
@@ -28,10 +29,20 @@
                         ></v-text-field>
 
                         <v-text-field
+                                id="LoginPassword"
                                 v-model="LoginInfo.password"
                                 label="Password"
                                 required
                         ></v-text-field>
+                        <v-checkbox
+
+
+                                label="Hide Password"
+                                color="indigo"
+                                value="indigo"
+
+                                @click="ShowPassword"
+                        ></v-checkbox>
 
 
 
@@ -40,11 +51,13 @@
                                 class="mr-4"
                                 @click="Login(LoginInfo)"
                         >
-                            Validate
+                            Sign In
                         </v-btn>
 
 
                     </v-form>
+                    <br>
+                    <router-link :to="'/'">Dont Have An Account?Sign up</router-link>
                 </v-col>
             </v-row>
         </v-container>
@@ -62,7 +75,7 @@
         name: "Home",
 
         data: () => ({
-            ShowAlert:true,
+
             alignments: [
                 'start',
                 'center',
@@ -79,6 +92,15 @@
             ],
         }),
         methods:{
+            ShowPassword(){
+                let Input = document.querySelector('#LoginPassword')
+                if (Input.type==='text'){
+                    Input.type = 'password'
+
+                }else {
+                    Input.type = 'text'
+                }
+            },
             Login(LoginInfo){
                 this.$store.dispatch('LoginUser',LoginInfo)
                 },
