@@ -12,6 +12,7 @@ export default  new Vuex.Store({
   state: {
     EmailConfirmAlert:false,
     IsAuth:false,
+    ShowChangePassword:false,
    User:[],
     gtoken:'',
     token:'',
@@ -47,6 +48,9 @@ export default  new Vuex.Store({
     SetUserInfo(state,data){
       state.User = data
       state.IsAuth=true
+      sessionStorage.setItem('email',state.User.email)
+
+
     },
     SetTemplates(state,data){
       state.Templates = data
@@ -61,6 +65,12 @@ export default  new Vuex.Store({
     SetSshKey(state,data){
       state.UserSshKey.push(data)
 
+    },
+    SetRes(state){
+      state.ShowChangePassword=true
+      setTimeout(function () {
+        state.ShowChangePassword=false
+      },4000)
     }
 
   },
@@ -166,6 +176,17 @@ export default  new Vuex.Store({
 
 
     },
+    SendChangePasswordEmail(context,email){
+      axios.post('https://odev.abrnoc.com/fastapi/auth/forgot-password',email).then((res)=>{
+        if (res.statusText==='Accepted'){
+          context.commit('SetRes')
+          console.log(res)
+        }
+
+      }).catch((err)=>{
+        alert(err)
+      })
+    }
 
 
 
